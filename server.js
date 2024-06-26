@@ -20,7 +20,7 @@ const azureConfig = {
 const lineClient = new Client(lineConfig);
 
 // 靜態文件服務
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/public', express.static(path.join(__dirname, 'public')));
 
 app.post('/webhook', express.json(), (req, res) => {
   const events = req.body.events;
