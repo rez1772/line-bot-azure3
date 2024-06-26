@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const axios = require('axios');
 const { Client } = require('@line/bot-sdk');
+const path = require('path');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -17,6 +18,9 @@ const azureConfig = {
 };
 
 const lineClient = new Client(lineConfig);
+
+// 靜態文件服務
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.post('/webhook', express.json(), (req, res) => {
   const events = req.body.events;
@@ -45,6 +49,10 @@ app.post('/webhook', express.json(), (req, res) => {
   });
 
   res.status(200).send('OK');
+});
+
+app.get('/', (req, res) => {
+  res.send('Hello, this is the Line bot server.');
 });
 
 app.listen(port, () => {
